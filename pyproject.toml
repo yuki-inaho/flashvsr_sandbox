@@ -1,0 +1,84 @@
+[project]
+name = "flashvsr-workspace"
+version = "0.1.0"
+description = "FlashVSR v1.1 workspace with CUDA 11.8 support"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    # PyTorch ecosystem for CUDA 11.8
+    "torch==2.6.0",
+    "torchaudio==2.6.0",
+    "torchvision==0.21.0",
+
+    # Core dependencies from FlashVSR requirements.txt
+    "torchmetrics==1.7.3",
+    "torchsde==0.2.6",
+    "accelerate==1.8.1",
+    "einops==0.8.1",
+    "huggingface-hub==0.34.4",
+    "matplotlib==3.10.3",
+    "numpy==1.26.4",
+    "opencv-python==4.11.0.86",
+    "opencv-python-headless==4.11.0.86",
+    "peft==0.16.0",
+    "pillow==11.0.0",
+    "safetensors==0.5.3",
+    "sentencepiece==0.2.0",
+    "transformers==4.46.2",
+    "pytorch-lightning==2.5.2",
+    "imageio==2.37.0",
+    "imageio-ffmpeg==0.6.0",
+    "protobuf==3.20.3",
+    "ftfy==6.3.1",
+    "pandas==2.3.0",
+    "tqdm",
+    "datasets",
+
+    # Testing dependencies
+    "pytest>=8.0.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ipython",
+    "jupyter",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+bypass-selection = true
+only-include = []
+
+[tool.uv]
+# Use PyTorch index for CUDA 11.8 builds
+index-url = "https://download.pytorch.org/whl/cu118"
+# Fallback to PyPI for other packages
+extra-index-url = ["https://pypi.org/simple"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+    "--cov=.",
+    "--cov-report=term-missing",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "gpu: marks tests that require GPU (deselect with '-m \"not gpu\"')",
+    "model: marks tests that require downloaded models",
+]
+
+[tool.coverage.run]
+omit = [
+    "tests/*",
+    "FlashVSR/*",
+]
