@@ -1,14 +1,13 @@
 [project]
 name = "flashvsr-workspace"
 version = "0.1.0"
-description = "FlashVSR v1.1 workspace with CUDA 11.8 support"
-requires-python = ">=3.11,<3.12"
+description = "FlashVSR v1.1 workspace with CUDA 12.x support"
+requires-python = "==3.11.*"
 dependencies = [
-    # PyTorch ecosystem for CUDA 11.8
-    "torch==2.6.0",
-    "torchaudio==2.6.0",
-    "torchvision==0.21.0",
-
+    # PyTorch ecosystem for CUDA 12.4 (latest stack for rebuild)
+    "torch==2.6.0+cu124",
+    "torchaudio==2.6.0+cu124",
+    "torchvision==0.21.0+cu124",
     # Core dependencies from FlashVSR requirements.txt
     "torchmetrics==1.7.3",
     "torchsde==0.2.6",
@@ -32,11 +31,13 @@ dependencies = [
     "pandas==2.3.0",
     "tqdm",
     "datasets",
-
     # Testing dependencies
     "pytest>=8.0.0",
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.12.0",
+    "packaging>=25.0",
+    "ninja>=1.13.0",
+    "gradio>=5.49.1",
 ]
 
 [project.optional-dependencies]
@@ -54,8 +55,8 @@ bypass-selection = true
 only-include = []
 
 [tool.uv]
-# Use PyTorch index for CUDA 11.8 builds
-index-url = "https://download.pytorch.org/whl/cu118"
+# Use PyTorch index for CUDA 12.4 builds
+index-url = "https://download.pytorch.org/whl/cu124"
 # Fallback to PyPI for other packages
 extra-index-url = ["https://pypi.org/simple"]
 

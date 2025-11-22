@@ -26,11 +26,19 @@ install-deps:
 # Block-Sparse Attentionのビルド・インストール
 install-block-sparse:
     @echo "========================================="
-    @echo "Block-Sparse Attentionをビルド中..."
-    @echo "（10〜30分程度かかります）"
+    @echo "Block-Sparse Attentionをローカルwhlからインストール中..."
+    @echo "BLOCK_SPARSE_WHL 環境変数で whl のパスを指定してください。"
     @echo "========================================="
-    chmod +x scripts/install_block_sparse_attention.sh
-    bash scripts/install_block_sparse_attention.sh
+    @if [ -z "$${BLOCK_SPARSE_WHL:-}" ]; then \
+        echo "✗ BLOCK_SPARSE_WHL が未指定です。例:"; \
+        echo "  BLOCK_SPARSE_WHL=./block_sparse_attn-0.0.1+cu124torch2.6cxx11abiTRUE-cp311-cp311-linux_x86_64.whl just install-block-sparse"; \
+        exit 1; \
+    fi
+    @if [ ! -f "$${BLOCK_SPARSE_WHL}" ]; then \
+        echo "✗ BLOCK_SPARSE_WHL で指定されたファイルが存在しません: $${BLOCK_SPARSE_WHL}"; \
+        exit 1; \
+    fi
+    uv pip install --no-index "$${BLOCK_SPARSE_WHL}"
 
 # FlashVSR v1.1モデルのダウンロード
 download-models:

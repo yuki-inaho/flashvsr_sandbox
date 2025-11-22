@@ -1,0 +1,6 @@
+[submodule "FlashVSR"]
+	path = FlashVSR
+	url = https://github.com/OpenImagingLab/FlashVSR.git
+[submodule "Block-Sparse-Attention"]
+	path = Block-Sparse-Attention
+	url = https://github.com/mit-han-lab/Block-Sparse-Attention
